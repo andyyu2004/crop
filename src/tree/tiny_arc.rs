@@ -9,12 +9,19 @@ use core::ptr::{addr_of_mut, NonNull};
 use core::sync::atomic;
 
 /// A tiny `Arc` without weak references.
-pub(super) struct Arc<T> {
+pub struct Arc<T> {
     ptr: NonNull<ArcInner<T>>,
 }
 
 unsafe impl<T: Sync + Send> Send for Arc<T> {}
 unsafe impl<T: Sync + Send> Sync for Arc<T> {}
+
+impl<T> AsRef<T> for Arc<T> {
+    #[inline]
+    fn as_ref(&self) -> &T {
+        &**self
+    }
+}
 
 struct ArcInner<T> {
     counter: atomic::AtomicUsize,

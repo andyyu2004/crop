@@ -3,7 +3,7 @@ use core::ops::RangeBounds;
 use super::traits::{BalancedLeaf, Leaf, Metric, ReplaceableLeaf};
 
 #[derive(Clone, Default)]
-pub(super) struct Lnode<L: Leaf> {
+pub struct Lnode<L: Leaf> {
     value: L,
     summary: L::Summary,
 }
@@ -42,7 +42,7 @@ impl<L: Leaf> Lnode<L> {
     }
 
     #[inline]
-    pub(super) fn as_slice(&self) -> L::Slice<'_> {
+    pub fn as_slice(&self) -> L::Slice<'_> {
         self.value.as_slice()
     }
 
@@ -112,7 +112,7 @@ impl<L: Leaf> Lnode<L> {
     }
 
     #[inline]
-    pub(super) fn summary(&self) -> &L::Summary {
+    pub fn summary(&self) -> &L::Summary {
         &self.summary
     }
 }

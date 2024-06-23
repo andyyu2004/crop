@@ -11,9 +11,9 @@ mod units;
 
 use iter_chain::ExactChain;
 pub use leaves::Leaves;
-use node::Node;
-use node_internal::Inode;
-use node_leaf::Lnode;
+pub use node::Node;
+pub use node_internal::Inode;
+pub use node_leaf::Lnode;
 use tiny_arc::Arc;
 pub use traits::*;
 pub use tree::Tree;

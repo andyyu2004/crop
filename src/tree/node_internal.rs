@@ -5,7 +5,7 @@ use super::{Arc, ExactChain, Node};
 use crate::range_bounds_to_start_end;
 
 #[derive(Clone)]
-pub(super) struct Inode<const N: usize, L: Leaf> {
+pub struct Inode<const N: usize, L: Leaf> {
     children: Vec<Arc<Node<N, L>>>,
     summary: L::Summary,
     depth: usize,
@@ -407,12 +407,12 @@ impl<const N: usize, L: Leaf> Inode<N, L> {
     }
 
     #[inline]
-    pub(super) fn child(&self, child_idx: usize) -> &Arc<Node<N, L>> {
+    pub fn child(&self, child_idx: usize) -> &Arc<Node<N, L>> {
         &self.children[child_idx]
     }
 
     #[inline]
-    pub(super) fn children(&self) -> &[Arc<Node<N, L>>] {
+    pub  fn children(&self) -> &[Arc<Node<N, L>>] {
         &self.children
     }
 
@@ -903,7 +903,7 @@ impl<const N: usize, L: Leaf> Inode<N, L> {
     }
 
     #[inline]
-    pub(super) fn summary(&self) -> &L::Summary {
+    pub fn summary(&self) -> &L::Summary {
         &self.summary
     }
 

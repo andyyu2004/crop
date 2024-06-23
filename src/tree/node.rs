@@ -2,7 +2,7 @@ use super::traits::{BalancedLeaf, Leaf, Metric, SlicingMetric};
 use super::{Arc, Inode, Lnode};
 
 #[derive(Clone)]
-pub(super) enum Node<const N: usize, L: Leaf> {
+pub enum Node<const N: usize, L: Leaf> {
     Internal(Inode<N, L>),
     Leaf(Lnode<L>),
 }
@@ -262,7 +262,7 @@ impl<const N: usize, L: Leaf> Node<N, L> {
     }
 
     #[inline]
-    pub(super) fn summary(&self) -> &L::Summary {
+    pub fn summary(&self) -> &L::Summary {
         match self {
             Node::Internal(inode) => inode.summary(),
             Node::Leaf(leaf) => leaf.summary(),

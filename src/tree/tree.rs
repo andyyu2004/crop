@@ -192,7 +192,7 @@ impl<const ARITY: usize, L: Leaf> Tree<ARITY, L> {
     }
 
     #[inline]
-    pub(super) fn root(&self) -> &Arc<Node<ARITY, L>> {
+    pub fn root(&self) -> &Arc<Node<ARITY, L>> {
         &self.root
     }
 
