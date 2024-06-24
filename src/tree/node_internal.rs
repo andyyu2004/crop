@@ -412,7 +412,7 @@ impl<const N: usize, L: Leaf> Inode<N, L> {
     }
 
     #[inline]
-    pub  fn children(&self) -> &[Arc<Node<N, L>>] {
+    pub fn children(&self) -> &[Arc<Node<N, L>>] {
         &self.children
     }
 
@@ -957,11 +957,7 @@ impl<const N: usize, L: Leaf> Inode<N, L> {
     /// in case that child's summary or leaf count change as a result of
     /// calling `fun`.
     #[inline]
-    pub(super) fn with_child_mut<F, T>(
-        &mut self,
-        child_idx: usize,
-        fun: F,
-    ) -> T
+    pub fn with_child_mut<F, T>(&mut self, child_idx: usize, fun: F) -> T
     where
         F: FnOnce(&mut Arc<Node<N, L>>) -> T,
     {

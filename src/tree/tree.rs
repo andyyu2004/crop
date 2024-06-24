@@ -196,6 +196,12 @@ impl<const ARITY: usize, L: Leaf> Tree<ARITY, L> {
         &self.root
     }
 
+    #[inline]
+    #[doc(hidden)]
+    pub fn root_mut(&mut self) -> &mut Arc<Node<ARITY, L>> {
+        &mut self.root
+    }
+
     /// Returns a slice of the `Tree` in the range of the given metric.
     #[track_caller]
     #[inline]
