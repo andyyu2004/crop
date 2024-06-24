@@ -14,7 +14,7 @@ pub use leaves::Leaves;
 pub use node::Node;
 pub use node_internal::Inode;
 pub use node_leaf::Lnode;
-use tiny_arc::Arc;
+pub use tiny_arc::Arc;
 pub use traits::*;
 pub use tree::Tree;
 pub use tree_builder::TreeBuilder;

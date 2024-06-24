@@ -33,7 +33,7 @@ unsafe impl<T: Sync + Send> Sync for ArcInner<T> {}
 
 impl<T> Arc<T> {
     #[inline]
-    pub(super) fn get_mut(this: &mut Self) -> Option<&mut T> {
+    pub fn get_mut(this: &mut Self) -> Option<&mut T> {
         if this.is_unique() {
             // SAFETY: this is the only `Arc` pointing to the inner value, so
             // we can safely mutate it.
@@ -44,7 +44,7 @@ impl<T> Arc<T> {
     }
 
     #[inline]
-    pub(super) unsafe fn get_mut_unchecked(this: &mut Self) -> &mut T {
+    pub unsafe fn get_mut_unchecked(this: &mut Self) -> &mut T {
         &mut this.ptr.as_mut().data
     }
 
@@ -61,7 +61,7 @@ impl<T> Arc<T> {
     }
 
     #[inline]
-    pub(super) fn new(data: T) -> Self {
+    pub fn new(data: T) -> Self {
         let inner = ArcInner { counter: atomic::AtomicUsize::new(1), data };
 
         // SAFETY: the pointer returned by `Box::into_raw()` is guaranteed to
@@ -73,14 +73,14 @@ impl<T> Arc<T> {
     }
 
     #[inline]
-    pub(super) fn ptr_eq(this: &Self, other: &Self) -> bool {
+    pub fn ptr_eq(this: &Self, other: &Self) -> bool {
         this.ptr == other.ptr
     }
 }
 
 impl<T: Clone> Arc<T> {
     #[inline]
-    pub(super) fn make_mut(this: &mut Self) -> &mut T {
+    pub fn make_mut(this: &mut Self) -> &mut T {
         if !this.is_unique() {
             *this = this.optimized_clone();
         }
