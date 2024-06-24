@@ -37,6 +37,16 @@ impl<L: Leaf> From<(L, L::Summary)> for Lnode<L> {
 }
 
 impl<L: Leaf> Lnode<L> {
+    #[doc(hidden)]
+    pub fn value(&self) -> &L {
+        &self.value
+    }
+
+    #[doc(hidden)]
+    pub fn value_mut(&mut self) -> &mut L {
+        &mut self.value
+    }
+
     pub(super) fn assert_invariants(&self) {
         assert_eq!(self.summary, self.value.summarize());
     }
