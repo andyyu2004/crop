@@ -125,4 +125,10 @@ impl<L: Leaf> Lnode<L> {
     pub fn summary(&self) -> &L::Summary {
         &self.summary
     }
+
+    #[doc(hidden)]
+    #[inline]
+    pub fn summary_mut(&mut self) -> &mut L::Summary {
+        &mut self.summary
+    }
 }
