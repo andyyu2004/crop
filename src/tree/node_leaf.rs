@@ -4,8 +4,10 @@ use super::traits::{BalancedLeaf, Leaf, Metric, ReplaceableLeaf};
 
 #[derive(Clone, Default)]
 pub struct Lnode<L: Leaf> {
-    value: L,
-    summary: L::Summary,
+    #[doc(hidden)]
+    pub value: L,
+    #[doc(hidden)]
+    pub summary: L::Summary,
 }
 
 impl<L: Leaf> core::fmt::Debug for Lnode<L> {
@@ -40,11 +42,6 @@ impl<L: Leaf> Lnode<L> {
     #[doc(hidden)]
     pub fn value(&self) -> &L {
         &self.value
-    }
-
-    #[doc(hidden)]
-    pub fn value_mut(&mut self) -> &mut L {
-        &mut self.value
     }
 
     pub(super) fn assert_invariants(&self) {
@@ -124,11 +121,5 @@ impl<L: Leaf> Lnode<L> {
     #[inline]
     pub fn summary(&self) -> &L::Summary {
         &self.summary
-    }
-
-    #[doc(hidden)]
-    #[inline]
-    pub fn summary_mut(&mut self) -> &mut L::Summary {
-        &mut self.summary
     }
 }
