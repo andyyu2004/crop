@@ -1,12 +1,14 @@
 use core::ops::{Range, RangeBounds};
 
+use arrayvec::ArrayVec;
+
 use super::traits::*;
 use super::{Arc, ExactChain, Node};
 use crate::range_bounds_to_start_end;
 
 #[derive(Clone)]
 pub struct Inode<const N: usize, L: Leaf> {
-    children: Vec<Arc<Node<N, L>>>,
+    children: ArrayVec<Arc<Node<N, L>>, N>,
     summary: L::Summary,
     depth: usize,
     leaf_count: usize,
@@ -296,7 +298,7 @@ impl<const N: usize, L: Leaf> Inode<N, L> {
                 // Move the second child's children to the first child, then
                 // remove the second child.
                 if first.len() + second.len() <= Self::max_children() {
-                    first.children.append(&mut second.children);
+                    first.children.extend(second.children.take());
                     first.leaf_count += second.leaf_count;
                     first.summary += second.summary();
                     self.children.remove(1);
@@ -366,7 +368,7 @@ impl<const N: usize, L: Leaf> Inode<N, L> {
                 // Move the last child's children to the penultimate child,
                 // then remove the last child.
                 if penultimate.len() + last.len() <= Self::max_children() {
-                    penultimate.children.append(&mut last.children);
+                    penultimate.children.extend(last.children.take());
                     penultimate.leaf_count += last.leaf_count;
                     penultimate.summary += last.summary();
                     self.children.remove(last_idx);
@@ -504,7 +506,7 @@ impl<const N: usize, L: Leaf> Inode<N, L> {
     pub(super) fn drain<R>(
         &mut self,
         idx_range: R,
-    ) -> alloc::vec::Drain<'_, Arc<Node<N, L>>>
+    ) -> arrayvec::Drain<'_, Arc<Node<N, L>>, N>
     where
         R: RangeBounds<usize>,
     {
@@ -524,7 +526,7 @@ impl<const N: usize, L: Leaf> Inode<N, L> {
     #[inline]
     pub(super) fn empty() -> Self {
         Self {
-            children: Vec::with_capacity(N),
+            children: ArrayVec::new(),
             depth: 1,
             leaf_count: 0,
             summary: Default::default(),
@@ -550,7 +552,7 @@ impl<const N: usize, L: Leaf> Inode<N, L> {
     where
         I: IntoIterator<Item = Arc<Node<N, L>>>,
     {
-        let children = children.into_iter().collect::<Vec<Arc<Node<N, L>>>>();
+        let children = children.into_iter().collect::<ArrayVec<_, N>>();
 
         debug_assert!(!children.is_empty());
         debug_assert!(children.len() <= Self::max_children());
