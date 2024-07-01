@@ -548,7 +548,8 @@ impl<const N: usize, L: Leaf> Inode<N, L> {
     /// Panics if `children` yields zero nodes, more than `max_children` nodes
     /// or nodes at different depths.
     #[inline]
-    pub(super) fn from_children<I>(children: I) -> Self
+    #[doc(hidden)]
+    pub fn from_children<I>(children: I) -> Self
     where
         I: IntoIterator<Item = Arc<Node<N, L>>>,
     {
