@@ -8,6 +8,15 @@ pub struct Tree<const ARITY: usize, L: Leaf> {
     pub(super) root: Arc<Node<ARITY, L>>,
 }
 
+impl<const ARITY: usize, L: Leaf> From<Arc<Node<ARITY, L>>>
+    for Tree<ARITY, L>
+{
+    #[inline]
+    fn from(root: Arc<Node<ARITY, L>>) -> Self {
+        Self { root }
+    }
+}
+
 impl<const ARITY: usize, L: Leaf> Clone for Tree<ARITY, L> {
     #[inline]
     fn clone(&self) -> Self {
